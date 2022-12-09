@@ -1,11 +1,11 @@
 locals {
-  internal_sg_name = "${local.cluster_name}-internal"
+  internal_sg_name = "${var.cluster_name}-internal"
 }
 
 resource "aws_security_group" "node_group_internal" {
   count = var.create ? 1 : 0
 
-  description = "Controls access to internal node group on ${local.cluster_name} EKS cluster"
+  description = "Controls access to internal node group on ${var.cluster_name} EKS cluster"
   vpc_id      = var.vpc_id
   name        = local.internal_sg_name
 
