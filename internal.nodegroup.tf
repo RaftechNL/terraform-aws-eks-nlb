@@ -25,10 +25,10 @@ module "internal_self_managed_node_group" {
   min_size      = 3
   max_size      = 3
   desired_size  = 3
-  instance_type = "t3.small"
 
-  bootstrap_extra_args = "--kubelet-extra-args '--node-labels=networking.amv.devops/ingress-type=int,networking.amv.devops/ingress=true,node.kubernetes.io/lifecycle=on-demand --register-with-taints=networking.amv.devops/ingress-type=int:NoSchedule'"
-
+  instance_type        = var.ng_config_ext_int.internal.instance_type
+  bootstrap_extra_args = var.ng_config_ext_int.internal.bootstrap_extra_args
+  
   target_group_arns = module.nlb_internal.target_group_arns
 
   tags = merge(local.tags, {})

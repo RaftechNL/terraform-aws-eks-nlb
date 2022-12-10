@@ -4,16 +4,22 @@ variable "create" {
   description = "Controls if the resources are created or not"
 }
 
-variable "create_component_external" { 
+variable "create_component_external" {
   type        = bool
   default     = true
   description = "Controls if the external facing resources are created or not"
 }
 
-variable "create_component_internal" { 
+variable "create_component_internal" {
   type        = bool
   default     = true
   description = "Controls if the external facing resources are created or not"
+}
+
+variable "create_component_sys" {
+  type        = bool
+  default     = true
+  description = "Controls if the sys resources are created or not"
 }
 
 variable "cluster_name" {
@@ -101,23 +107,23 @@ variable "ng_config_ext_int" {
   description = "Configuration for self managed node groups"
   type = object({
     external = object({
-      instance_types       = list(string)
+      instance_type        = string
       bootstrap_extra_args = string
     })
     internal = object({
-      instance_types       = list(string)
+      instance_type        = string
       bootstrap_extra_args = string
     })
   })
 
   default = {
     external = {
-      bootstrap_extra_args = "value"
-      instance_types       = ["value"]
+      bootstrap_extra_args = "--kubelet-extra-args '--node-labels=networking/ingress-type=ext,networking/ingress=true,node.kubernetes.io/lifecycle=on-demand --register-with-taints=networking/ingress-type=ext:NoSchedule'"
+      instance_type        = "t3.medium"
     }
     internal = {
-      bootstrap_extra_args = "value"
-      instance_types       = ["value"]
+      bootstrap_extra_args = "--kubelet-extra-args '--node-labels=networking/ingress-type=int,networking/ingress=true,node.kubernetes.io/lifecycle=on-demand --register-with-taints=networking/ingress-type=int:NoSchedule'"
+      instance_type        = "t3.medium"
     }
   }
 
@@ -125,7 +131,7 @@ variable "ng_config_ext_int" {
 
 
 variable "ng_config_sys" {
-  description = "Configuration for EKS managed node groups"
+  description = "Configuration for EKS managed node group ( sys ) "
   type = object({
     instance_types = list(string)
     labels         = map(string)
@@ -137,15 +143,15 @@ variable "ng_config_sys" {
   })
 
   default = {
-    instance_types = ["value"]
+    instance_types = ["t3.medium"]
     labels = {
-      "key" = "value"
+      "node/dedicated" = "sys"
     }
     taints = {
-      "key" = {
-        effect = "value"
-        key    = "value"
-        value  = "value"
+      critical = {
+        key    = "CriticalAddonsOnly"
+        value  = "true"
+        effect = "NO_SCHEDULE"
       }
     }
   }

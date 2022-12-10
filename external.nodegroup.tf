@@ -22,12 +22,12 @@ module "external_self_managed_node_group" {
     AmazonSSMManagedInstanceCore = "arn:${local.partition}:iam::aws:policy/AmazonSSMManagedInstanceCore",
   }
 
-  min_size      = 3
-  max_size      = 3
-  desired_size  = 3
-  instance_type = "c5.xlarge"
+  min_size     = 3
+  max_size     = 3
+  desired_size = 3
 
-  bootstrap_extra_args = "--kubelet-extra-args '--node-labels=networking.amv.devops/ingress-type=ext,networking.amv.devops/ingress=true,node.kubernetes.io/lifecycle=on-demand --register-with-taints=networking.amv.devops/ingress-type=ext:NoSchedule'"
+  instance_type        = var.ng_config_ext_int.external.instance_type
+  bootstrap_extra_args = var.ng_config_ext_int.external.bootstrap_extra_args
 
   target_group_arns = module.nlb_external.target_group_arns
 

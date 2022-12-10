@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_security_group" "node_group_sys" {
-  count = var.create ? 1 : 0
+  count = var.create && var.create_component_sys  ? 1 : 0
 
   description = "Controls access to sys node group on ${var.cluster_name} EKS cluster"
   vpc_id      = var.vpc_id
