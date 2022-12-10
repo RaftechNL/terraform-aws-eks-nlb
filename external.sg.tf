@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_security_group" "node_group_external" {
-  count = var.create && create_component_external ? 1 : 0
+  count = var.create && var.create_component_external ? 1 : 0
 
   description = "Controls access to external node group on ${var.cluster_name} EKS cluster"
   vpc_id      = var.vpc_id

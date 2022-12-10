@@ -1,7 +1,7 @@
 module "nlb_internal" {
   source    = "terraform-aws-modules/alb/aws"
   version   = "8.2.1"
-  create_lb = var.create && create_component_internal
+  create_lb = var.create && var.create_component_internal
 
   name = "nlb-int-${var.cluster_name}"
 

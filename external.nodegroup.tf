@@ -1,7 +1,7 @@
 module "external_self_managed_node_group" {
   source  = "terraform-aws-modules/eks/aws//modules/self-managed-node-group"
   version = "v19.0.3"
-  create  = var.create && create_component_external
+  create  = var.create && var.create_component_external
 
   name                = "${var.cluster_name}-ng-external"
   cluster_name        = var.cluster_name

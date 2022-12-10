@@ -1,7 +1,7 @@
 module "nlb_external" {
   source    = "terraform-aws-modules/alb/aws"
   version   = "8.2.1"
-  create_lb = var.create && create_component_external
+  create_lb = var.create && var.create_component_external
 
   name = "nlb-ext-${var.cluster_name}"
 
