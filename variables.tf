@@ -1,11 +1,25 @@
 variable "create" {
   type        = bool
+  default     = true
   description = "Controls if the resources are created or not"
 }
+
+variable "create_component_external" { 
+  type        = bool
+  default     = true
+  description = "Controls if the external facing resources are created or not"
+}
+
+variable "create_component_internal" { 
+  type        = bool
+  default     = true
+  description = "Controls if the external facing resources are created or not"
+}
+
 variable "cluster_name" {
   type        = string
   description = "Name of the EKS cluster"
- }
+}
 
 variable "cluster_version" {
   type        = string
@@ -67,7 +81,7 @@ variable "nlb_external_allowed_cidr_blocks" {
   type        = list(string)
   description = "(Optional) List of CIDR blocks to allow ingress traffic from external sources ( i.e. Cloudflare ). If we do not specify to allow external access - then we allow from everywhere"
   default     = ["0.0.0.0/0"]
- }
+}
 
 #nlb_external_allow_rules
 variable "nlb_external_allow_rules" {
@@ -80,5 +94,60 @@ variable "nlb_external_allow_rules" {
   }))
   description = "(Optional) Inbound security group rules for external nlb security group"
   default     = []
+}
+
+# These are used by network loadbalancers as targets
+variable "ng_config_ext_int" {
+  description = "Configuration for self managed node groups"
+  type = object({
+    external = object({
+      instance_types       = list(string)
+      bootstrap_extra_args = string
+    })
+    internal = object({
+      instance_types       = list(string)
+      bootstrap_extra_args = string
+    })
+  })
+
+  default = {
+    external = {
+      bootstrap_extra_args = "value"
+      instance_types       = ["value"]
+    }
+    internal = {
+      bootstrap_extra_args = "value"
+      instance_types       = ["value"]
+    }
+  }
+
+}
+
+
+variable "ng_config_sys" {
+  description = "Configuration for EKS managed node groups"
+  type = object({
+    instance_types = list(string)
+    labels         = map(string)
+    taints = map(object({
+      key    = string
+      value  = string
+      effect = string
+    }))
+  })
+
+  default = {
+    instance_types = ["value"]
+    labels = {
+      "key" = "value"
+    }
+    taints = {
+      "key" = {
+        effect = "value"
+        key    = "value"
+        value  = "value"
+      }
+    }
+  }
 }
 
