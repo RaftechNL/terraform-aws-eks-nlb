@@ -1,8 +1,12 @@
+# terraform-aws-eks-nlb
+Terraform module wrapper creating EKS and NLB(s)
+
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 2.6.0 |
 | <a name="requirement_kubectl"></a> [kubectl](#requirement\_kubectl) | >= 1.14.0 |
@@ -63,6 +67,7 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_cluster"></a> [cluster](#output\_cluster) | n/a |
-| <a name="output_nlb"></a> [nlb](#output\_nlb) | n/a |
-| <a name="output_node_group"></a> [node\_group](#output\_node\_group) | n/a |
+| <a name="output_cluster"></a> [cluster](#output\_cluster) | Contains all outputs from the EKS modules |
+| <a name="output_nlb"></a> [nlb](#output\_nlb) | Contains all outputs from creating internal/external loadbalancers |
+| <a name="output_node_group"></a> [node\_group](#output\_node\_group) | Contains all outputs from creating of the node groups |
+<!-- END_TF_DOCS -->
